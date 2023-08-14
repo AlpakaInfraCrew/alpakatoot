@@ -1,6 +1,6 @@
 # megaretoot
 
-Script to automatically re-toot/boost toots from your followers using a given hashtag.
+Script to automatically re-toot/boost toots from accounts you follow using a configurable hashtag.
 
 On the first run, you can select if you want to boost one hashtag-matching toot per account, even from the past (use `--force`), or ignore them and only boost new posts after you did your first run (use `--dry`). 
 
