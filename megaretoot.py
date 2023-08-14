@@ -4,6 +4,7 @@ from config import client_secret, access_token, hashtag_to_boost, api_base_url, 
 import argparse
 import pathlib
 import sys
+import time
 
 parser = argparse.ArgumentParser(
                     prog='MEGARETOOT',
@@ -44,6 +45,7 @@ with open('reblog-history.log', 'r') as history:
 reblog_history = [l.strip() for l in reblog_history]
 
 for account in mast.account_following(mast.me(), limit=200):
+    time.sleep(0.5)
     uname = account['username']
     uid = str(account['id'])
     uid_fn = f'{uid}.log'
