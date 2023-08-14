@@ -45,8 +45,8 @@ with open('reblog-history.log', 'r') as history:
 reblog_history = [l.strip() for l in reblog_history]
 
 for account in mast.account_following(mast.me(), limit=200):
-    time.sleep(0.5)
     uname = account['username']
+    print(f'Searching for matching toots from {uname}.')
     uid = str(account['id'])
     uid_fn = f'{uid}.log'
     if os.path.isfile(uid_fn):
