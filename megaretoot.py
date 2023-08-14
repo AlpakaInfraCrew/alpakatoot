@@ -48,13 +48,17 @@ for account in mast.account_following(mast.me(), limit=200):
     uid = str(account['id'])
     uid_fn = f'{uid}.log'
     if os.path.isfile(uid_fn):
+        new_account = False
         with open(uid_fn, 'r') as uid_f:
             #user already known, fetch since last boosted post
             user_last_boosted_toot_id = uid_f.read().strip()
             statuses = mast.account_statuses(account['id'], tagged=hashtag_to_boost, since_id=user_last_boosted_toot_id, limit = 10)
     else:
+        new_account = True
         #fetch only the most recent matching toot of this user
         statuses = mast.account_statuses(account['id'], tagged=hashtag_to_boost, limit = 1)
+    if new_account and statuses:
+        print(f"New account {uname} since last run, with existing post, ignoring until next run.")
 
     print(f'Fetching toots for {uname} (Id: {uid})')
 
@@ -70,10 +74,11 @@ for account in mast.account_following(mast.me(), limit=200):
         if toot['reblogged']:
             # maybe already manually boosted
             continue
-        print(f'Found new toot to reblog: {toot_url}')
-        if not args.dry:
+        if not args.dry and not new_account:
+            print(f'Found new toot to reblog: {toot_url}')
+            breakpoint()
             mast.status_reblog(toot_id, visibility='public')
         else:
-            print('Dry run selected. Not Boosting.')
+            print(f'Dry run selected or new account found. Not boosting {toot_url}.')
 
 
