@@ -60,18 +60,20 @@ for account in mast.account_following(mast.me(), limit=200):
 
     for toot in statuses:
         toot_id = str(toot['id'])
+        toot_url = toot['url']
         if toot_id in reblog_history:
             continue
         with open(uid_fn, 'w') as user_last_log:
             user_last_log.write(toot_id)
+        with open('reblog-history.log', 'a') as history:
+            history.write(toot_url + '\n')
         if toot['reblogged']:
+            # maybe already manually boosted
             continue
-        toot_url = toot['url']
         print(f'Found new toot to reblog: {toot_url}')
         if not args.dry:
             mast.status_reblog(toot_id, visibility='public')
         else:
             print('Dry run selected. Not Boosting.')
-        with open('reblog-history.log', 'a') as history:
-            history.write(toot_url + '\n')
+
 
