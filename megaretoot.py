@@ -1,6 +1,22 @@
 from mastodon import Mastodon
 import os
 from config import client_secret, access_token, hashtag_to_boost, api_base_url, app_name
+import argparse
+import pathlib
+import sys
+
+parser = argparse.ArgumentParser(
+                    prog='MEGARETOOT',
+                    description='This script boosts the toots using a given hashtag of the accounts you are following.')
+
+
+parser.add_argument('-d', '--dry',
+                    action='store_true', dest='dry',
+                    help='Dry run, use this on the first run to ignore any toots from the past.')
+parser.add_argument('-f', '--force',
+                    action='store_true', dest='force',
+                    help='If ran for the first time, -d is required. This can be overridden with -f.')
+args = parser.parse_args()
 
 
 mast = Mastodon(
@@ -16,7 +32,11 @@ def hashtags(toot):
         htgs.append(ht['name'])
     return set(htgs)
 
-
+if not os.path.isfile('reblog-history.log'):
+    if not args.dry and not args.force:
+        print('Warning, no logfile of a previous file detected. You might want to use --dry first to not boost any old toots! Use --force if you really want to do this.')
+        sys.exit()
+    pathlib.Path('reblog-history.log').touch()
 
 with open('reblog-history.log', 'r') as history:
     reblog_history = history.readlines()
@@ -49,7 +69,10 @@ for account in mast.account_following(mast.me(), limit=200):
 
         toot_url = toot['url']
         print(f'Found new toot to reblog: {toot_url}')
-        mast.status_reblog(toot_id, visibility='public')
+        if not args.dry:
+            mast.status_reblog(toot_id, visibility='public')
+        else:
+            print('Dry run selected. Not Boosting.')
         with open('reblog-history.log', 'a') as history:
             history.write(toot_url + '\n')
 
