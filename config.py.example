@@ -1,0 +1,6 @@
+client_secret = 'your_clientsecret'
+access_token = 'your_accesstoken'
+hashtag_to_boost =  'your_hashtag_without_#'
+api_base_url = 'https://your.instance'
+app_name = 'your_appname'
+
