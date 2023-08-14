@@ -78,7 +78,6 @@ for account in mast.account_following(mast.me(), limit=200):
             continue
         if not args.dry and not new_account:
             print(f'Found new toot to reblog: {toot_url}')
-            breakpoint()
             mast.status_reblog(toot_id, visibility='public')
         else:
             print(f'Dry run selected or new account found. Not boosting {toot_url}.')
