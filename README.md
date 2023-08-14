@@ -1,7 +1,8 @@
 # megaretoot
+
 Script to automatically re-toot/boost toots from your followers using a given hashtag.
 
-Heavily inspired by superretoot: https://github.com/chaostreff-flensburg/superretoot
+Inspired by superretoot: https://github.com/chaostreff-flensburg/superretoot
 
 ## Installation
 
@@ -22,10 +23,10 @@ Edit config.py to your needs.
 
 ## First run
 
-In case you want to ignore all matching toots from the past, run with `--dry` first, if you want to explicitly boost one matching toot, even from the past, you can do so by using `--force` on the first run. 
+In case you want to ignore all matching toots from the past, run with `--dry` first, if you want to explicitly boost one matching toot per account, even from the past, you can do so by using `--force` on the first run. 
 
 ```
-bin/python megaretoot.py [ --dry | --force ]
+bin/python megaretoot.py [ --dry | --force ]
 ```
 
 ## Run it regularly
