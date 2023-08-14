@@ -60,13 +60,12 @@ for account in mast.account_following(mast.me(), limit=200):
 
     for toot in statuses:
         toot_id = str(toot['id'])
-        if toot['reblogged'] or toot_id in reblog_history:
+        if toot_id in reblog_history:
             continue
-        with open(f'{uid}.log', 'w') as user_last_log:
+        with open(uid_fn, 'w') as user_last_log:
             user_last_log.write(toot_id)
-        with open(uid_fn, 'w') as uid_f:
-            uid_f.write(toot_id)
-
+        if toot['reblogged']:
+            continue
         toot_url = toot['url']
         print(f'Found new toot to reblog: {toot_url}')
         if not args.dry:
