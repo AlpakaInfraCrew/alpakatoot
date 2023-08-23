@@ -35,7 +35,7 @@ def hashtags(toot):
 
 if not os.path.isfile('reblog-history.log'):
     if not args.dry and not args.force:
-        print('Warning, no logfile of a previous file detected. You might want to use --dry first to not boost any old toots! Use --force if you really want to do this.')
+        print('Warning, no logfile of a previous run detected. You might want to use --dry first to not boost any old toots! Use --force if you really want to do this.')
         sys.exit()
     pathlib.Path('reblog-history.log').touch()
 
