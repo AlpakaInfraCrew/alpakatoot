@@ -2,7 +2,7 @@
 
 Script to automatically re-toot/boost toots from accounts you follow using a configurable hashtag.
 
-On the first run, you can select if you want to boost one hashtag-matching toot per account, even from the past (use `--force`), or ignore them and only boost new posts after you did your first run (use `--dry`). 
+On the first run, you can select if you want to boost one hashtag-matching toot per account, even from the past (use `--force`), or ignore them and only boost new posts after you did your first run (use `--dry`).
 
 For accounts you follow after your first run, all old toots matching the hashtag are ignored.
 
@@ -25,9 +25,11 @@ cp config.py.example config.py
 
 Edit config.py to your needs.
 
+only_following: If set to True, only toots from accounts you follow will be boosted. If set to False all accounts that follow you will be boosted. (Both only if the matching hashtag is used)
+
 ## First run
 
-In case you want to ignore all matching toots from the past, run with `--dry` first, if you want to explicitly boost one matching toot per account, even from the past, you can do so by using `--force` on the first run. 
+In case you want to ignore all matching toots from the past, run with `--dry` first, if you want to explicitly boost one matching toot per account, even from the past, you can do so by using `--force` on the first run.
 
 ```
 bin/python megaretoot.py [ --dry | --force ]

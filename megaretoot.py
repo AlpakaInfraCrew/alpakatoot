@@ -1,6 +1,6 @@
 from mastodon import Mastodon
 import os
-from config import client_secret, access_token, hashtag_to_boost, api_base_url, app_name
+from config import client_secret, access_token, hashtag_to_boost, api_base_url, app_name, only_following
 import argparse
 import pathlib
 import sys
@@ -44,7 +44,14 @@ with open('reblog-history.log', 'r') as history:
 
 reblog_history = [l.strip() for l in reblog_history]
 
-for account in mast.account_following(mast.me(), limit=200):
+if only_following:
+    print("Checking accounts YOU follow...")
+    accounts_to_check = mast.account_following(mast.me(), limit=200)
+else:
+    print("Checking accounts that FOLLOW YOU...")
+    accounts_to_check = mast.account_followers(mast.me(), limit=200)
+
+for account in accounts_to_check:
     uname = account['username']
     print(f'Searching for matching toots from {uname}.')
     time.sleep(0.2)
